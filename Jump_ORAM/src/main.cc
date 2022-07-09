@@ -1,0 +1,131 @@
+#include <cstdio>
+#include <cstdlib>
+#include <string>
+#include "client.h"
+#include "server.h"
+#include "utils.h"
+
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+void sleep(float seconds){
+    clock_t startClock = clock();
+    float secondsAhead = seconds * CLOCKS_PER_SEC;
+    // do nothing until the elapsed time has passed.
+    while(clock() < startClock+secondsAhead);
+    return;
+}
+
+int main(int argc, char *argv[])
+{
+	/* Get time string */
+	time_t now = time(NULL);
+	char timestamp[16];
+	if (now == -1) {
+		printf("Can not get time.\n");
+		return 1;
+	}
+	tm *now_time = localtime(&now);
+	strftime(timestamp, 16, "%d%m_%H%M", now_time);
+
+	/* Crypto library initialization */
+	Block::init();
+
+	srand((unsigned)time(NULL));
+
+	int temp_flag = DATABASE_SIZE/(1024*1024*1024);
+    std::string database_size_GB = temp_flag ? to_string(temp_flag) : "0.5"; 
+    // if the value of database_size_GB is equal to '2', set it to "2.5"
+    if (temp_flag == 2)
+    {
+        database_size_GB = "2.5";
+    }
+    std::cout << "database_size: " << database_size_GB << "GB; " << "BLOCK_SIZE: "<<  BLOCK_SIZE/1024<< "KB" << std::endl;
+	std::string name_prefix = database_size_GB + "GB_" + to_string(BLOCK_SIZE/1024) + "KB";
+
+	cout << "Server(1) or Client(2): ";
+	int choice_layer_1;
+	cin >> choice_layer_1;
+	if (choice_layer_1 == 2) {
+		/* Client */
+		goto client_begin;
+	} else if (choice_layer_1 == 1) {
+		/* Server */
+		goto server_begin;
+	} 
+
+	if (argc < 2)
+		goto use_hint;
+
+	if (argv[1][0] == '1') {
+server_begin:
+		printf("[Main] Run Server\n\n");
+		server_start(name_prefix + "_server", timestamp);
+	} else if (argv[1][0] == '2') {
+client_begin:
+		printf("[Main] Run Client\n\n");
+		int choice_layer_2;
+create_begin:
+		cout << "Create a new database(1) or Reload an existing one(2): ";
+		cin >> choice_layer_2;
+		Client client(name_prefix + "_client", timestamp);
+		if (choice_layer_2 == 1) {
+			/* Create a new database */
+			cout << "[Main] Create ORAM\n\n";
+			client.build_database();
+		} else if (choice_layer_2 == 2) {
+			/* Reload an existing database */
+			client.load();
+		} else {
+			goto create_begin;
+		}
+		
+
+		TYPE_INDEX choice;
+access_begin:
+		printf("RANDOM ACCESS(1) OR SELECTIVE TEST(2)?\n");
+		scanf("%lld", &choice);
+
+		if (choice == 2) {
+			Log log(log_directory + '/' + name_prefix + "_client_access_" + timestamp + ".txt");
+			printf("WHICH VIRTUAL BLOCK? (1-%ld)\n", STORE_SIZE);
+			scanf("%lld", &choice);
+
+			log.start();
+			client.access(choice);
+			printf("[Main] Elapsed time for access block %lld: %ld\n", choice, log.end());
+
+			log.write_to_file();
+			goto access_begin;
+		} else if (choice == 1) {
+			Log log(log_directory + '/' + name_prefix + "_client_access_" + timestamp + ".txt");
+			printf("HOW MANY RANDOM ACCESS?\n");
+			scanf("%lld", &choice);
+
+			for (TYPE_INDEX i = 0; i < choice; i++) {
+				TYPE_INDEX idx = rand() % STORE_SIZE;
+				log.start();
+				client.access(idx);
+				printf("[Main] Elapsed time for access block %lld: %ld ns\n\n", idx, log.end());
+			}
+			log.write_to_file();
+			goto access_begin;
+		}
+
+	} else if (argv[1][0] == '3') {
+		printf("[Main] Create ORAM\n\n");
+		Client client(name_prefix + "_client", timestamp);
+		client.build_database();
+	} else {
+		goto use_hint;
+	}
+
+	return 0;
+
+use_hint:
+	printf("%s 1	- run server\n", argv[0]);
+	printf("%s 2	- run client\n", argv[0]);
+	printf("%s 3	- create new ORAM\n", argv[0]);
+	return 1;
+}
