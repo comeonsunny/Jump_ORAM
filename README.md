@@ -39,26 +39,23 @@ make
 Run the binary executable file ```Jump_ORAM```, which will ask for either Client or Server mode. To make it easier to see
 the interactive process between the client and server, we used the **tmux** window tool to present the usage of binary executable file.
 > ```tmux new -s Jump_ORAM```
-![tmux_new_Jump_ORAM](pictures\tmux_new_jump_oram.png)
+![tmux_new_Jump_ORAM](pictures/tmux_new_jump_oram.png)
 > short cut: ```Ctrl+b, %``` (to achieve the split screen left and right)
-![tmux_new_Jump_ORAM_split](pictures\tmux_new_jump_oram_split.png)
+![tmux_new_Jump_ORAM_split](pictures/tmux_new_Jump_ORAM_split.png)
 > ```./Jump_ORAM``` on the left side first.
-![tmux_new_Jump_ORAM_split_run](pictures\tmux_new_jump_oram_split_run.png)
+![tmux_new_Jump_ORAM_split_run](pictures/tmux_new_Jump_ORAM_split_run.png)
 > select $1$ to execute the server first
-![tmux_new_Jump_ORAM_split_run_server](pictures\tmux_new_jump_oram_split_run_server.png)
+![tmux_new_Jump_ORAM_split_run_server](pictures/tmux_new_Jump_ORAM_split_run_server.png)
 > ```./Jump_ORAM``` on the right side and select $2$ to execute the client.
-![tmux_new_Jump_ORAM_split_run_client](pictures\tmux_new_jump_oram_split_run_client.png)
+![tmux_new_Jump_ORAM_split_run_client](pictures/tmux_new_Jump_ORAM_split_run_client.png)
 > Choose $1$ to create a new database owing to your first run this program. And next time, you can choose $2$ to connect to the existing database.
-![tmux_new_Jump_ORAM_split_run_client_new_database](pictures\tmux_new_jump_oram_split_run_client_new_database.png)
+![tmux_new_Jump_ORAM_split_run_client_new_database](pictures/tmux_new_Jump_ORAM_split_run_client_new_database.png)
 > Now, you will face another choices to choose $1$ or $2$ to randomly or sequentially access a data block in the database.
 > For example you can choose $1$ to randomly access a data block in the database.
-![tmux_new_Jump_ORAM_split_run_client_new_database_random](pictures\tmux_new_jump_oram_split_run_client_new_database_random.png)
+![tmux_new_Jump_ORAM_split_run_client_new_database_random](pictures/tmux_new_Jump_ORAM_split_run_client_new_database_random.png)
 > Then you face a question:How many times of your random access? You can choose an integer you like.
-![tmux_new_Jump_ORAM_split_run_client_new_database_random_times](pictures\tmux_new_jump_oram_split_run_client_new_database_random_times.png)
+![tmux_new_Jump_ORAM_split_run_client_new_database_random_times](pictures/tmux_new_Jump_ORAM_split_run_client_new_database_random_times.png)
 ```
-The S3ORAM implementation can be tested using either **single** machine or **multiple** machines:
-
-
 
 # Further Information
 For any inquiries, bugs, and assistance on building and running the code, please contact me at changqischolar@gmail.com.
