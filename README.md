@@ -1,5 +1,5 @@
 # Jump-ORAM 
-The implementation of Jump-ORAM appeared in INFOCOM ([free version](https://eprint.iacr.org/2017/819.pdf)). 
+The implementation of Jump-ORAM, the paper of which was submitted to INFOCOM. 
 We programmed this project on [VS code](https://code.visualstudio.com/) and  ran it on Ubuntu20.04 with g++ as compiler. 
 It is recommended to use the editor and running environment mentioned above. 
 
