@@ -5,14 +5,14 @@
 #include <climits>
 
 /* PARAMETERS */
-#define BLOCK_SIZE		4096		// bytes of a block
+#define BLOCK_SIZE		1024		// bytes of a block
 /* 4096.0(4KB), 8192.0(8KB), 16384.0(16KB), 32768.0(32KB), 65536.0(64KB), 131072.0(128KB), 262144.0(256KB), 524288.0(512KB), 1048576.0(1024KB)*/
-#define DATABASE_SIZE	536870912 	// bytes of a database
+#define DATABASE_SIZE	1024 * 1024 	// bytes of a database
 /* 536870912.0(0.5GB) 1073741824(1GB) 2684354560.0(2.5GB) 5368709120(5GB) 10737418240(10GB) 21474836480(20GB) 42949672960(40GB) */
-#define STASH_SIZE		2
-#define CACHE_SIZE		2
+#define STASH_SIZE		512
+#define CACHE_SIZE		512
 
-#define SERVER_PORT		5201
+#define SERVER_PORT		5282
 #define SERVER_ADDR		"127.0.0.1"
 
 #define IV_SIZE			16
@@ -46,4 +46,4 @@ static_assert(BLOCK_SIZE % sizeof(TYPE_DATA) == 0, "Block size is incorrect.");
 static_assert(DATA_CHUNKS > 1, "Bytes of a block is too small.");
 static_assert(STEP > 1, "Step is too small.");
 
-#endif // JUMPORAM_CONFIG_H
+#endif
